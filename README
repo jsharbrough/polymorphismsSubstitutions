@@ -1,0 +1,53 @@
+To run program in unix terminal, type the following:
+
+	python polymorphismsSubstitutions_v4.py <input> <ploidy>
+
+		input	If ploidy is diploid, input should be a file of file names for all the alignments 
+			for which you plan to obtain polymorphism and substitution counts. If input is 
+			haploid (e.g., mtDNA sequence), input should be a single alignment file in fasta 
+			format. Note that in haploid mode, you will need to adjust the positional 
+			information in the two variables "regions" and "regionList" in the 
+			polymorphismsSubstitutionsHaploid command. 
+
+		ploidy	Ploidy is set to diploid on default. The two options are diploid and haploid. Note 
+			that diploid state assumes the standerd genetic code and the haploid state assumes 
+			the vertebrate mitochondrial genetic code. For diploid data, the program is 
+			currently set up to only determine differences between two sequences in pairwise 
+			fashion. If you wish to investigate polymorphism, please contact the developer.
+
+Assumptions:
+
+	*	For noncoding data, this program assumes that for sites with multiple hits, the number of 
+		changes = # alleles -1. 
+
+	*	For codons with multiple hits, the minimal number of changes possible to 
+		explain the codon with # 
+		changes/codon = (# site 1 alleles - 1) + (# site 2 alleles - 1) + (# site 3 alleles - 1). 
+
+	*	If the number of changes was > 2, the codon will be sent to the logfile for manual 
+		determination. 
+
+	*	If there were three codons present and were all equally distantly related (e.g., AAA, AAT, 
+		AAC), the codon will be sent to the logfile for manual determination. 
+
+	*	If there aret hree codons and one codon was equally similar to the other two, but the other 
+		two codons were more dissimilar, the codon sharing the highest degree of similarity is 
+		assumed to be the 	evolutionary intermediate (e.g., AAA(K) <--> ACA(T) <--> ACT(T), 
+		yielding 1 synonymous change and 1 nonsynonymous change). 
+
+	*	If only two codons were present, but the codon contained multiple hits, the intermediate 
+		requiring the fewest number of nonsynonymous changes and no stop codons was assumed (e.g., 
+		TTG(L) <--> CTG(L) <--> CTC(L) = 2 syn changes, TTG(L) <--> TTC(F) <--> CTC(L) = 1 syn, 1 
+		nonsyn change, meaning the first scenario would be assumed). 
+
+	*	If there were 2 or more differences in the codons of two difference species, but not all of 
+		the changes were at invariant sites (i.e., at least one of the changes was polymorphic 
+		within the species), it will be sent to the logfile for manual determination and only counted the 
+		number of fixed differences in the final count.
+
+BE SURE TO DOUBLE CHECK THE LOGFILE. IT IS THE DEFINITIVE OUTPUT. ALL COMPLEX CODONS ARE SENT THERE, BUT NOT 
+INCLUDED IN OUTPUT TABLES
+
+ Questions should be directed to Joel Sharbrough at jsharbro[at]gmail.com
+
+Copyright (c) 2017 Joel Sharbrough
